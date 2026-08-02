@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiFi Playbook — دليل توقيع وإغلاق العملاء وإدارة الحسابات</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzc2RTg3NiIvPgogIDxyZWN0IHg9IjIyIiB5PSIzMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjE4IiByeD0iOSIgZmlsbD0iIzI1MzkzMiIgdHJhbnNmb3JtPSJyb3RhdGUoLTIwIDQ5LjUgMzkpIi8+CiAgPHJlY3QgeD0iMjIiIHk9IjU5IiB3aWR0aD0iNTUiIGhlaWdodD0iMTgiIHJ4PSI5IiBmaWxsPSIjMjUzOTMyIiB0cmFuc2Zvcm09InJvdGF0ZSgtMjAgNDkuNSA2OCkiLz4KPC9zdmc+">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#76E876;
+    --primary-dark:#57D657;
+    --primary-contrast:#253932;
+    --primary-light:#C7FAC0;
+    --primary-lightest:#A3F098;
+    --primary-deepest:#121715;
+    --neutral-0:#FFFFFF;
+    --neutral-50:#F6F6EE;
+    --neutral-100:#E1E1D1;
+    --neutral-400:#C7C7C7;
+    --neutral-500:#8A8A8A;
+    --neutral-600:#474747;
+    --neutral-1000:#000000;
+    --danger:#FF3B30;
+    --danger-light:#FFE6E4;
+    --warning:#D48E00;
+    --warning-light:#FFF3E0;
+    --success:#158900;
+    --success-light:#D6FFD8;
+    --radius-sm:4px;
+    --radius-md:12px;
+    --radius-lg:22px;
+    --radius-full:100px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    background:var(--neutral-50);
+    color:var(--neutral-1000);
+    position:relative;
+  }
+  /* Global ambient backdrop — fixed, sits behind every glass surface on the site */
+  .ambient-bg{
+    position:fixed;
+    top:0; right:0; bottom:0; left:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .ambient-bg .blob{
+    position:absolute;
+    border-radius:50%;
+  }
+  .ambient-bg .blob-a{ width:520px; height:520px; background:var(--primary); opacity:.5; filter:blur(140px); top:-160px; right:-140px; }
+  .ambient-bg .blob-b{ width:480px; height:480px; background:var(--primary-contrast); opacity:.4; filter:blur(150px); bottom:-180px; left:-140px; }
+  .ambient-bg .blob-c{ width:360px; height:360px; background:var(--primary-lightest); opacity:.35; filter:blur(130px); top:35%; left:38%; }
+  .ambient-bg .blob-d{ width:300px; height:300px; background:var(--primary); opacity:.3; filter:blur(120px); bottom:10%; right:12%; }
+  .shell{
+    position:relative;
+    z-index:1;
+    display:flex;
+    min-height:100vh;
+  }
+  /* Sidebar sits on the right in RTL */
+  .sidebar{
+    width:320px;
+    flex-shrink:0;
+    background:rgba(255,255,255,0.42);
+    backdrop-filter:blur(26px) saturate(200%);
+    -webkit-backdrop-filter:blur(26px) saturate(200%);
+    border-left:1px solid rgba(255,255,255,0.5);
+    box-shadow:inset -1px 0 0 rgba(255,255,255,0.4), 10px 0 40px -28px rgba(37,57,50,0.35);
+    display:flex;
+    flex-direction:column;
+    padding:28px 18px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 8px 22px 8px;
+    margin-bottom:14px;
+    border-bottom:1px solid rgba(255,255,255,0.5);
+  }
+  .brand-badge{
+    width:46px;height:46px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+  }
+  .brand-badge svg{width:100%;height:100%;display:block;}
+  .brand-text .name{font-weight:700;font-size:21px;line-height:1.25;letter-spacing:-0.01em;}
+  .brand-text .sub{font-size:13px;color:var(--neutral-600);font-weight:500;margin-top:2px;}
+  .nav-label{
+    font-size:12px;
+    color:var(--neutral-500);
+    text-transform:uppercase;
+    font-weight:600;
+    letter-spacing:.02em;
+    padding:18px 14px 12px 14px;
+  }
+  nav{display:flex;flex-direction:column;gap:8px;}
+  .nav-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    border-radius:var(--radius-lg);
+    font-size:15.5px;
+    font-weight:500;
+    color:var(--neutral-1000);
+    cursor:pointer;
+    border:1.5px solid rgba(255,255,255,0.45);
+    background:rgba(255,255,255,0.35);
+    backdrop-filter:blur(16px) saturate(180%);
+    -webkit-backdrop-filter:blur(16px) saturate(180%);
+    text-align:right;
+    width:100%;
+    font-family:inherit;
+    position:relative;
+    overflow:hidden;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+    transition:background .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .nav-item::before{
+    content:"";
+    position:absolute;
+    top:-60%; right:-20%;
+    width:70%; height:140%;
+    background:rgba(255,255,255,0.35);
+    border-radius:50%;
+    filter:blur(16px);
+    opacity:.6;
+    pointer-events:none;
+    z-index:0;
+  }
+  .nav-item > *{ position:relative; z-index:1; }
+  .nav-item:hover{
+    background:rgba(255,255,255,0.55);
+    border-color:rgba(255,255,255,0.7);
+    transform:translateX(-2px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 22px -14px rgba(37,57,50,0.3);
+  }
+  .nav-item.active{
+    background:rgba(37,57,50,0.88);
+    backdrop-filter:blur(22px) saturate(220%);
+    -webkit-backdrop-filter:blur(22px) saturate(220%);
+    color:var(--neutral-0);
+    font-weight:600;
+    border:1.5px solid rgba(118,232,118,0.55);
+    border-left:4px solid var(--primary);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.25),
+      0 16px 30px -16px rgba(37,57,50,0.45);
+  }
+  .nav-item.active::before{
+    background:rgba(255,255,255,0.12);
+  }
+  .nav-item .icon{
+    width:38px;height:38px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:var(--radius-md);
+    background:rgba(199,250,192,0.65);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.5);
+    color:var(--primary-contrast);
+  }
+  .nav-item .icon svg{width:20px;height:20px;stroke:currentColor;}
+  .nav-item.active .icon{
+    background:rgba(255,255,255,0.18);
+    border-color:rgba(255,255,255,0.3);
+    color:var(--neutral-0);
+  }
+  .nav-item .label{flex:1;line-height:1.35;}
+  .nav-item .count{
+    font-size:11px;
+    background:rgba(255,243,224,0.8);
+    border:1px solid rgba(255,255,255,0.5);
+    color:var(--warning);
+    padding:3px 10px;
+    border-radius:var(--radius-full);
+    font-weight:600;
+    flex-shrink:0;
+  }
+  .nav-item.active .count{
+    background:rgba(255,255,255,0.2);
+    border-color:rgba(255,255,255,0.3);
+    color:var(--neutral-0);
+  }
+  .sidebar-footer{
+    margin-top:auto;
+    padding:14px 12px;
+    font-size:11px;
+    color:var(--neutral-600);
+    border-top:1px solid rgba(255,255,255,0.5);
+  }
+  .main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+  }
+  .topbar{
+    background:rgba(255,255,255,0.32);
+    backdrop-filter:blur(24px) saturate(200%);
+    -webkit-backdrop-filter:blur(24px) saturate(200%);
+    padding:28px 40px 20px 40px;
+    border-bottom:1px solid rgba(255,255,255,0.5);
+  }
+  .topbar .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+    font-weight:500;
+    color:var(--success);
+    background:rgba(214,255,216,0.7);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.5);
+    padding:4px 12px;
+    border-radius:var(--radius-full);
+    margin-bottom:12px;
+  }
+  .section-index{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:600;
+    color:var(--primary-contrast);
+    background:rgba(199,250,192,0.65);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:var(--radius-full);
+    padding:3px 12px;
+    margin-inline-start:10px;
+  }
+  .topbar-title-row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .topbar h1{
+    font-size:28px;
+    font-weight:700;
+    margin:0 0 6px 0;
+    line-height:1.25;
+    letter-spacing:-0.01em;
+  }
+  .topbar p{
+    font-size:15.5px;
+    color:var(--neutral-600);
+    margin:0 0 18px 0;
+    max-width:660px;
+    line-height:1.8;
+  }
+  .progress-wrap{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    max-width:420px;
+  }
+  .progress-track{
+    flex:1;
+    height:6px;
+    background:rgba(255,255,255,0.5);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:var(--radius-full);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--primary);
+    border-radius:var(--radius-full);
+    width:0%;
+    transition:width .3s ease;
+  }
+  .progress-text{
+    font-size:12px;
+    font-weight:500;
+    color:var(--neutral-600);
+    white-space:nowrap;
+  }
+  .content{
+    padding:32px 40px 60px 40px;
+    background:transparent;
+    position:relative;
+    z-index:1;
+  }
+  .section{display:none;}
+  .section.active{display:block;}
+  .section-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:24px;
+  }
+  .section-header h2{
+    font-size:22px;
+    font-weight:600;
+    margin:0 0 6px 0;
+  }
+  .section-header p{
+    font-size:14px;
+    color:var(--neutral-600);
+    margin:0;
+    max-width:600px;
+    line-height:1.6;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:22px;
+    position:relative;
+    z-index:1;
+    perspective:1200px;
+    align-items:start; /* كل بطاقة بحجم محتواها — لا تتمدد لمساواة أطول بطاقة في الصف */
+  }
+  .slot{
+    position:relative;
+    background:rgba(255,255,255,0.55);
+    backdrop-filter:blur(30px) saturate(240%);
+    -webkit-backdrop-filter:blur(30px) saturate(240%);
+    border:1px solid rgba(255,255,255,0.55);
+    border-radius:var(--radius-lg);
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.8),
+      inset 0 0 0 1px rgba(255,255,255,0.06),
+      0 18px 34px -16px rgba(37,57,50,0.35),
+      0 2px 6px rgba(37,57,50,0.1);
+    transform-style:preserve-3d;
+    transform:perspective(1200px) rotateX(0deg) rotateY(0deg);
+    transition:transform .35s ease, box-shadow .35s ease, background .35s ease, border-color .35s ease;
+    overflow:hidden;
+  }
+  .slot::before{
+    content:"";
+    position:absolute;
+    top:-40%; left:-30%;
+    width:75%; height:75%;
+    background:rgba(255,255,255,0.5);
+    border-radius:50%;
+    filter:blur(18px);
+    opacity:.5;
+    pointer-events:none;
+    z-index:0;
+  }
+  .slot > *{ position:relative; z-index:1; }
+  .slot:hover{
+    background:rgba(255,255,255,0.36);
+    border-color:rgba(118,232,118,0.8);
+    z-index:5;
+    transform:perspective(1200px) rotateX(3deg) rotateY(-2deg) translateY(-6px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.85),
+      inset 0 0 0 1px rgba(255,255,255,0.08),
+      0 26px 44px -18px rgba(37,57,50,0.42),
+      0 6px 14px rgba(37,57,50,0.14);
+  }
+  .slot-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .slot-icon{
+    width:40px;height:40px;
+    border-radius:var(--radius-md);
+    background:rgba(199,250,192,0.55);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.55);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.7), 0 6px 14px -6px rgba(37,57,50,0.28);
+    color:var(--primary-contrast);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .slot-icon svg{width:20px;height:20px;stroke:currentColor;}
+  .status-pill{
+    font-size:11px;
+    font-weight:500;
+    padding:4px 10px;
+    border-radius:var(--radius-full);
+    background:rgba(255,243,224,0.6);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.4);
+    color:var(--warning);
+    white-space:nowrap;
+  }
+  .status-pill.done{
+    background:rgba(214,255,216,0.7);
+    color:var(--success);
+  }
+  .slot h4{
+    font-size:16px;
+    font-weight:700;
+    margin:0;
+    line-height:1.5;
+  }
+  .slot .desc{
+    font-size:14px;
+    color:var(--neutral-600);
+    margin:0;
+    line-height:1.75;
+    flex:1;
+  }
+  .slot .hint{
+    font-size:12px;
+    color:var(--neutral-500);
+    border-top:1px dashed rgba(89,89,89,0.25);
+    padding-top:10px;
+    margin-top:2px;
+  }
+  .slot-files{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:2px;
+    border-top:1px solid rgba(255,255,255,0.5);
+    padding-top:12px;
+  }
+  .file-link{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:var(--radius-md);
+    background:rgba(255,255,255,0.45);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.6);
+    color:var(--primary-contrast);
+    font-size:12.5px;
+    font-weight:500;
+    text-decoration:none;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .file-link:hover{
+    background:rgba(255,255,255,0.72);
+    border-color:rgba(118,232,118,0.75);
+    transform:translateX(-2px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 18px -12px rgba(37,57,50,0.4);
+  }
+  .file-link svg{ width:16px; height:16px; stroke:currentColor; flex-shrink:0; }
+  .file-icon{
+    width:30px;height:30px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:var(--radius-sm);
+    background:rgba(199,250,192,0.7);
+    border:1px solid rgba(255,255,255,0.6);
+    color:var(--primary-contrast);
+  }
+  .file-meta{
+    display:flex;
+    flex-direction:column;
+    gap:1px;
+    flex:1;
+    min-width:0;
+  }
+  .file-label{
+    font-size:13.5px;
+    font-weight:600;
+    line-height:1.4;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .file-sub{
+    font-size:11.5px;
+    font-weight:500;
+    color:var(--neutral-600);
+    letter-spacing:.01em;
+  }
+  .slot-items{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:2px;
+    border-top:1px solid rgba(255,255,255,0.5);
+    padding-top:12px;
+  }
+  .req-scroll{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  /* قائمة طويلة: ارتفاع ثابت مع تمرير داخلي — المؤشر على يمين الخانة */
+  .req-scroll.scrollable{
+    max-height:238px;
+    overflow-y:auto;
+    direction:ltr;               /* يضع شريط التمرير على اليمين في صفحة RTL */
+    padding-inline-start:10px;
+    scrollbar-width:thin;
+    scrollbar-color:var(--primary) rgba(255,255,255,0.4);
+  }
+  .req-scroll.scrollable > .req-item{ direction:rtl; }
+  .req-scroll.scrollable::-webkit-scrollbar{ width:6px; }
+  .req-scroll.scrollable::-webkit-scrollbar-track{
+    background:rgba(255,255,255,0.45);
+    border-radius:var(--radius-full);
+  }
+  .req-scroll.scrollable::-webkit-scrollbar-thumb{
+    background:var(--primary);
+    border-radius:var(--radius-full);
+  }
+  .req-scroll.scrollable::-webkit-scrollbar-thumb:hover{
+    background:var(--primary-dark);
+  }
+  .req-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:10px 14px;
+    border-radius:var(--radius-md);
+    background:rgba(255,255,255,0.5);
+    border:1px solid rgba(255,255,255,0.6);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  .req-logo{
+    width:22px;height:22px;flex-shrink:0;
+    margin-top:1px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    overflow:hidden;
+    box-shadow:0 2px 6px -2px rgba(37,57,50,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .req-logo svg{ width:100%; height:100%; display:block; }
+  .req-label{
+    font-size:14px;
+    font-weight:600;
+    color:var(--primary-deepest);
+    line-height:1.7;
+  }
+  .slot-message{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:2px;
+    border-top:1px solid rgba(255,255,255,0.5);
+    padding-top:12px;
+  }
+  .msg-text{
+    font-size:13.5px;
+    line-height:1.9;
+    color:var(--primary-deepest);
+    white-space:pre-wrap;
+    background:rgba(255,255,255,0.72);
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:var(--radius-md);
+    padding:12px 14px;
+    max-height:180px;
+    overflow-y:auto;
+  }
+  .msg-link{
+    color:var(--success);
+    font-weight:600;
+    text-decoration:underline;
+    text-underline-offset:2px;
+    word-break:break-all;
+  }
+  .msg-link:hover{ color:var(--primary-dark); }
+  .slot-items .copy-btn{ margin-top:4px; }
+  .copy-btn{
+    align-self:flex-start;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 16px;
+    border-radius:var(--radius-full);
+    background:rgba(37,57,50,0.9);
+    color:var(--neutral-0);
+    border:1px solid rgba(118,232,118,0.5);
+    font-family:inherit;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .copy-btn svg{ width:15px; height:15px; stroke:currentColor; flex-shrink:0; }
+  .copy-btn:hover{ background:var(--primary-contrast); transform:translateY(-1px); }
+  .copy-btn.copied{
+    background:var(--primary);
+    color:var(--primary-contrast);
+    border-color:rgba(87,214,87,0.9);
+  }
+  .file-row{ display:flex; align-items:stretch; gap:8px; }
+  .file-row .file-link{ flex:1; min-width:0; }
+  .file-dl-btn{
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:0 12px;
+    border-radius:var(--radius-md);
+    background:rgba(199,250,192,0.55);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.6);
+    color:var(--primary-contrast);
+    font-size:11.5px;
+    font-weight:600;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:background .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .file-dl-btn svg{ width:15px; height:15px; stroke:currentColor; flex-shrink:0; }
+  .file-dl-btn:hover{
+    background:var(--primary);
+    border-color:rgba(87,214,87,0.9);
+    transform:translateY(-1px);
+  }
+  .file-open{
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--neutral-500);
+    transition:color .15s ease;
+  }
+  .file-link:hover .file-open{ color:var(--primary-contrast); }
+  .file-dl-btn.is-loading{
+    pointer-events:none;
+    opacity:.75;
+    background:rgba(199,250,192,0.9);
+  }
+  .footer-note{
+    margin-top:36px;
+    padding:16px 20px;
+    font-size:13px;
+    background:rgba(255,255,255,0.55);
+    backdrop-filter:blur(22px) saturate(180%);
+    -webkit-backdrop-filter:blur(22px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:var(--radius-lg);
+    font-size:12px;
+    color:var(--neutral-600);
+    line-height:1.6;
+    position:relative;
+    z-index:1;
+  }
+
+  @media (max-width:900px){
+    .sidebar{position:relative;height:auto;width:100%;}
+    .shell{flex-direction:column;}
+    .topbar,.content{padding:20px;}
+  }
+
+  /* Fallback for browsers without backdrop-filter support (older Firefox/Edge, some in-app browsers):
+     raise background opacity so text stays readable without the blur effect. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+    .sidebar{background:rgba(255,255,255,0.92);}
+    .topbar{background:rgba(255,255,255,0.92);}
+    .nav-item{background:rgba(255,255,255,0.9);}
+    .nav-item.active{background:rgba(37,57,50,0.94);}
+    .slot{background:rgba(255,255,255,0.94);}
+    .slot-icon{background:var(--primary-light);}
+    .status-pill{background:var(--warning-light);}
+    .footer-note{background:rgba(255,255,255,0.94);}
+    .topbar .eyebrow{background:var(--success-light);}
+    .section-index{background:var(--primary-light);}
+  }
+</style>
+</head>
+<body>
+<div class="ambient-bg" aria-hidden="true">
+  <span class="blob blob-a"></span>
+  <span class="blob blob-b"></span>
+  <span class="blob blob-c"></span>
+  <span class="blob blob-d"></span>
+</div>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="50" fill="#76E876"/>
+          <rect x="22" y="30" width="55" height="18" rx="9" fill="#253932" transform="rotate(-20 49.5 39)"/>
+          <rect x="22" y="59" width="55" height="18" rx="9" fill="#253932" transform="rotate(-20 49.5 68)"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="name">SiFi Playbook</div>
+        <div class="sub">دليلك الأول للوصول للقمة</div>
+      </div>
+    </div>
+    <div class="nav-label">أقسام الدليل</div>
+    <nav id="nav"></nav>
+    <div class="sidebar-footer">
+      مرخّصة ومنظّمة من البنك المركزي السعودي (ساما)
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="eyebrow">● دليل حي — يُحدَّث باستمرار</span>
+      <div class="topbar-title-row">
+        <h1 id="page-title"></h1>
+        <span class="section-index" id="section-index"></span>
+      </div>
+      <p id="page-desc"></p>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <span class="progress-text" id="progress-text">0 من 6 أقسام مكتملة</span>
+      </div>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<script>
+// Minimal stroke-icon library (Lucide-inspired), referenced by key.
+const ICONS = {
+  phone: '<path d="M5 4h3l2 5-2 1a12 12 0 0 0 6 6l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+  bolt: '<path d="M13 2 4 14h6l-1 8 9-12h-6z"/>',
+  stack: '<path d="M4 7l8-3 8 3-8 3z"/><path d="M4 12l8 3 8-3"/><path d="M4 17l8 3 8-3"/>',
+  inbox: '<path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7z"/>',
+  scale: '<path d="M12 3v18M5 7h14"/><path d="M5 7l-3 6a3 3 0 0 0 6 0z"/><path d="M19 7l-3 6a3 3 0 0 0 6 0z"/>',
+  cash: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.3c0-1.4 1.4-2.3 2.9-2.3s2.6.9 2.6 2c0 2.3-5.5 1.4-5.5 3.7 0 1.1 1.2 2 2.6 2s2.9-.9 2.9-2.3"/><path d="M12 5.5v13"/>',
+  video: '<path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h9A1.5 1.5 0 0 1 15 6.5v11A1.5 1.5 0 0 1 13.5 19h-9A1.5 1.5 0 0 1 3 17.5z"/><path d="M15 9.5l6-3v11l-6-3z"/>',
+  chart: '<path d="M4 19V9M10 19V5M16 19v-7"/><path d="M3 19h18"/>',
+  building: '<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/><path d="M10 21v-4h4v4"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.4 9.2a2.6 2.6 0 0 1 5 1c0 1.6-2.4 1.9-2.4 3.6"/><path d="M12 17h.01"/>',
+  message: '<path d="M4 5h16v11H8l-4 4z"/>',
+  folder: '<path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>',
+  graduation: '<path d="M2 9l10-4 10 4-10 4z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/>',
+  card: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+  shield: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  file: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h6"/>',
+  lock: '<rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+  handshake: '<circle cx="9" cy="10" r="4"/><circle cx="16" cy="14" r="4"/>',
+  book: '<path d="M4 5c0-1 1-2 2-2h6v16H6c-1 0-2 1-2 2z"/><path d="M12 3h6c1 0 2 1 2 2v14c0 1-1 2-2 2h-6"/>',
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',
+  award: '<circle cx="12" cy="8" r="5"/><path d="M8.5 12.5 7 21l5-2.5L17 21l-1.5-8.5"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  download: '<path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 19h16"/>',
+  external: '<path d="M14 4h6v6"/><path d="M20 4l-8 8"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+  check: '<path d="M5 12l5 5L20 7"/>'
+};
+function icon(key){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[key]||''}</svg>`;
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+// يهرّب النص ثم يحوّل الروابط إلى وسوم قابلة للضغط (للعرض داخل الموقع فقط —
+// النسخ يبقى نصاً خاماً فتتحول الروابط تلقائياً عند اللصق في واتساب/الإيميل).
+function linkifyHtml(s){
+  return escapeHtml(s).replace(/(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" target="_blank" rel="noopener" class="msg-link">$1</a>');
+}
+
+const sections = [
+  {
+    id: "first-contact",
+    icon: "phone",
+    title: "دليل التواصل الأول مع العميل",
+    desc: "كل ما يحتاجه فريق المبيعات لترك انطباع أول احترافي وواثق — مواد جاهزة للمشاركة مع العميل فور أول تواصل.",
+    slots: [
+      {icon:"message", title:"رسالة ترحيبية بالعميل", desc:"صيغة مقترحة جاهزة للنسخ والإرسال — عدّل عليها بما يناسب أسلوبك.", message:`السلام عليكم
+معك (اسمك) من ساي فاي
+
+قدمتم معنا طلب على محفظة ساي فاي لإدارة المصاريف والبطاقات البنكية المؤسسية
+
+في حال حاب نكمل معك الإجراءات لفتح حسابكم معنا ارسلي السجل التجاري بعد إذنك`},
+      {icon:"video", title:"مقاطع تعريفية بالمنصة ومميزاتها", desc:"مقاطع قصيرة تقدّم منصة SiFi وأبرز مزاياها بلغة مبسّطة — مثالية للمشاركة في أول تواصل.", files:[
+        {icon:"video", label:"شرح مبسط لفكرة SiFi", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQBYbjAkzN3rSZZTT52Gzss0AdC8xMIn0_uOsLZ1RE1JXCY?e=BmfLAr"},
+        {icon:"video", label:"توضيح لميزة الكاش باك والمكافآت", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQAJZdUNV--mQ4TTRDyTdcItAS9PN6CZ6j-Cr9RrDypubGI?e=2X2FNc"}
+      ]},
+      {icon:"building", title:"ملف تعريف الشركة (Company Profile)", desc:"نبذة رسمية عن SiFi تغطي الرؤية والحلول ونطاق الترخيص — متوفرة بالعربية والإنجليزية.", files:[
+        {label:"الملف التعريفي — النسخة العربية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBys9qbw49cSbY0PfcmWy4oAf93e1Vm7WdtMDmPr7i1usE?e=jm3L9b"},
+        {label:"Executive Profile — English", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/r/personal/o_behabashy_sifi_sa/Documents/sales%20playbook/Company%20profile/EN%20company%20profile/Executive%20Profile%20EN%202.pdf?csf=1&web=1&e=BaqjiU"}
+      ]},
+      {icon:"chart", title:"القطاعات الأكثر استفادة من SiFi", desc:"ملف تعريفي لميزات ساي فاي بناءً على القطاع.", files:[
+        {label:"القطاعات الأكثر استفادة من SiFi", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCCJS6NDhtITqVNHxT5fHp5AetjhjS9BGI6CKkyNFgAbjc?e=6JyQJe"}
+      ]},
+      {icon:"video", title:"رابط تجريبي (DEMO) لمنصة SiFi", desc:"بيئة تجريبية كاملة للعرض خلال الاجتماع التعريفي، ويمكن مشاركتها مع العميل ليجرّب المنصة بنفسه قبل التوقيع.", files:[
+        {icon:"external", label:"فتح المنصة التجريبية (DEMO)", meta:"رابط ويب", openOnly:true, url:"https://sifi-demo-fe.vercel.app/login"}
+      ]}
+    ]
+  },
+  {
+    id: "activation",
+    icon: "bolt",
+    title: "دليل تفعيل حساب العميل",
+    desc: "الخطوات والمواد الجاهزة للمشاركة مع العميل فور تفعيل حسابه — لضمان انطلاقة سلسة من اليوم الأول.",
+    slots: [
+      {icon:"message", title:"نص رسالة التفعيل", desc:"صيغة مقترحة جاهزة للنسخ والإرسال — عدّل عليها بما يناسب أسلوبك.", message:`حسابكم معنا في SiFi تم تفعيله من طرفنا وجاهز للتنشيط.
+الرجاء تنشيط الحساب في أقرب وقت لتفادي انتهاء صلاحية دعوة التفعيل.🛑
+
+رابط تفعيل الحساب المباشر:
+https://my.sifi.app/profile-setup
+
+رابط خطوات الإعداد خطوة بخطوة:
+https://sifi-ksa.notion.site/SiFi-Onboarding-Guide-1bf177feea3580db8773f187c8060622
+
+مقطع مختصر شرح استخدام المنصة:
+https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6`},
+      {icon:"folder", title:"دليل الإعداد خطوة بخطوة", desc:"دليل مرتّب يرافق العميل خطوة بخطوة في فتح الحساب وإصدار البطاقات.", files:[
+        {icon:"external", label:"دليل الإعداد خطوة بخطوة (Notion)", meta:"رابط ويب", openOnly:true, url:"https://sifi-ksa.notion.site/SiFi-Onboarding-Guide-1bf177feea3580db8773f187c8060622"}
+      ]},
+      {icon:"graduation", title:"مواد تدريب العميل", desc:"مقاطع عملية قصيرة تشرح للعميل إعداد حسابه وتفعيله بالتفصيل.", files:[
+        {icon:"video", label:"طريقة تنشيط المحفظة", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/personal/o_behabashy_sifi_sa/_layouts/15/stream.aspx?id=%2Fpersonal%2Fo%5Fbehabashy%5Fsifi%5Fsa%2FDocuments%2Fsales%20playbook%2FSiFi%20Videos%2FWhatsApp%20Video%202026%2D07%2D29%20at%206%2E15%2E35%20PM%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E78599df6%2D63e7%2D446d%2Dba04%2D81deb0966650"}
+      ]},
+      {icon:"card", title:"دليل تنفيذ أول عملية إيداع وشراء بالبطاقة", desc:"شرح خطوة بخطوة لإتمام أول عملية إيداع وأول عملية شراء عبر البطاقة.", files:[
+        {label:"كيف تسوي أول عملية شرائية؟", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBblsU2LclMSJrv21-ug-tvASJdgWl4bRLX6vHfRqc5aRo?e=eWqtMv"}
+      ]}
+    ]
+  },
+  {
+    id: "client-docs",
+    icon: "inbox",
+    title: "المستندات المطلوبة من العميل",
+    desc: "المستندات النظامية المطلوبة من العميل لإتمام فتح الحساب — مصنّفة بحسب نوع الجهة.",
+    slots: [
+      {icon:"building", title:"متطلبات الشركات", desc:"المستندات النظامية المطلوبة لفتح حساب للشركات.", items:[
+        "السجل التجاري",
+        "عقد التأسيس"
+      ]},
+      {icon:"building", title:"متطلبات المؤسسات", desc:"المستندات النظامية المطلوبة لفتح حساب للمؤسسات الفردية.", items:[
+        "السجل التجاري"
+      ]},
+      {icon:"handshake", title:"متطلبات الجمعيات الخيرية والجهات غير الربحية", desc:"المستندات النظامية المطلوبة للجمعيات الخيرية والجهات غير الربحية.", items:[
+        "شهادة ترخيص وزارة الموارد البشرية أو المركز الوطني لتنمية القطاع الغير ربحي",
+        "لائحة الجمعية المعتمدة",
+        "قرار تعيين مجلس الإدارة مصادق عليه من وزارة الموارد البشرية أو من المركز الوطني لتنمية القطاع الغير ربحي",
+        "قرار مجلس الإدارة بتعيين الأشخاص المفوضين الذين يمتلكون صلاحية فتح الحسابات البنكية والتحويل وتوقيع الاتفاقيات (يوقّع الشخصان المفوضان في هذا الخطاب بالإضافة لتوقيع المدير المالي في الجمعية)",
+        "نسخة من هوية الأشخاص المفوضين بفتح الحسابات البنكية",
+        "صور هوية جميع أعضاء مجلس الإدارة"
+      ]},
+      {icon:"book", title:"مرجع موحّد لمتطلبات فتح الحسابات البنكية", desc:"وثيقة واحدة تجمع متطلبات فتح الحساب لجميع أنواع الجهات — مرجعك السريع عند أي استفسار.", files:[
+        {label:"المرجع الموحّد لمتطلبات فتح الحسابات", meta:"Excel", url:"https://sifisaudi-my.sharepoint.com/:x:/g/personal/o_behabashy_sifi_sa/IQA6ca6JUQBBSJdEKLwlwE-cATD_ZmSjfFk8v4pkoWK4Ews?e=fgXUu7"}
+      ]}
+    ]
+  },
+  {
+    id: "sifi-docs",
+    icon: "stack",
+    title: "مستندات SiFi الرسمية",
+    desc: "الوثائق الرسمية لشركة SiFi المعتمدة في التوقيع مع العملاء ومتطلبات الامتثال التنظيمي.",
+    slots: [
+      {icon:"shield", title:"ترخيص البنك المركزي (SAMA License)", desc:"وثيقة الترخيص الرسمية الصادرة من البنك المركزي السعودي (SAMA).", files:[
+        {label:"شهادة ترخيص شركة الحلول المبسطة المالية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBmJRP2xaJITKRWRUeAakefAaeqVURUbsUe36J8GnBJokE?e=9xiUFG"}
+      ]},
+      {icon:"file", title:"السجل التجاري لـ SiFi", desc:"نسخة رسمية وسارية من السجل التجاري للشركة — بالعربية والإنجليزية.", files:[
+        {label:"السجل التجاري لساي فاي — SiFi CR 2026", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCmWuAwJWc0Rq2JP46Q2XW6Af-o-Fv5mwwu3yXUXZn1FEs?e=AIheAO"},
+        {label:"CR Certificate — English", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQDHIczBHhUPRb7JL4fs6dX5AV4yT1x60KEva6dKvsPDncU?e=ETTkZa"}
+      ]},
+      {icon:"file", title:"الشروط والأحكام", desc:"رابط الشروط والأحكام من موقع ساي فاي الرسمي.", files:[
+        {icon:"external", label:"الشروط والأحكام — موقع SiFi الرسمي", meta:"رابط ويب", openOnly:true, url:"https://www.sifi.app/ar/terms-and-conditions"}
+      ]},
+      {icon:"file", title:"نموذج فتح الحساب الموحّد", desc:"نسخة للنموذج الرسمي المعتمد لفتح الحساب المراد توقيعه من العملاء.", files:[
+        {label:"نموذج فتح الحساب — SiFi Application", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCEN_H3sqsKRqRapWicf2eUAdqJCO-TKtmjoFV9-Ww6ntU?e=VYpSvJ"}
+      ]},
+      {icon:"lock", title:"NDA", desc:"أحدث نسخة معتمدة من اتفاقية عدم الإفصاح (NDA) الجاهزة للتوقيع.", files:[
+        {label:"SiFi — NDA Template", meta:"Word", url:"https://sifisaudi-my.sharepoint.com/:w:/g/personal/o_behabashy_sifi_sa/IQAtwjlR8qt1QLMCy3sEUVO8ARhm_HEIR5OAc-NtnCq-3I8?e=IdhFuq"}
+      ]}
+    ]
+  },
+  {
+    id: "competitors",
+    icon: "scale",
+    title: "المنافسين",
+    desc: "قراءة دقيقة للمشهد التنافسي تمكّن الفريق من إدارة النقاش والتفاوض بثقة ووضوح.",
+    slots: [
+      {icon:"chart", title:"مقارنة SiFi مقابل المنافسين", desc:"مقارنة شاملة للمزايا والخدمات والتسعير أمام أبرز المنافسين في السوق."},
+      {icon:"cash", title:"جدول تسعير مقارن", desc:"مقارنة أسعار وباقات المنافسين مقابل باقات SiFi جنباً إلى جنب."},
+      {icon:"message", title:"ردود معتمدة على الاعتراضات التنافسية", desc:"ردود جاهزة ومعتمدة تستخدمها عندما يقارن العميل بين SiFi ومنافس معيّن."}
+    ]
+  },
+  {
+    id: "commissions",
+    icon: "cash",
+    title: "العمولات والحوافز",
+    desc: "السياسات المعتمدة لاحتساب العمولات والحوافز — بوضوح وشفافية كاملة لفريق المبيعات وإدارة الحسابات.",
+    slots: [
+      {icon:"chart", title:"هيكل العمولات", desc:"آلية احتساب عمولة المبيعات المعتمدة عن كل صفقة مغلقة."},
+      {icon:"target", title:"حوافز تحقيق الأهداف", desc:"مكافآت إضافية تُصرف عند تجاوز الأهداف الشهرية أو الربعية."},
+      {icon:"award", title:"سياسة المكافآت والتقدير", desc:"برامج تقدير وتكريم الأداء المتميز داخل الفريق."},
+      {icon:"calendar", title:"جدول صرف العمولات", desc:"المواعيد والدورة الزمنية المعتمدة لصرف العمولات والحوافز."}
+    ]
+  }
+];
+
+// ── روابط الملفات ──────────────────────────────────────────────────────
+// يمكن تعريف الملف بإحدى ثلاث طرق:
+//   {url:"<رابط SharePoint / OneDrive / Google Drive>", label:"...", meta:"..."}
+//   {drive:"<رابط درايف أو الـ ID>", label:"...", meta:"..."}
+//   {href:"assets/....pdf", name:"...", label:"..."}   ← ملف محلي
+// تُولَّد روابط «فتح» و«تحميل» تلقائياً حسب مزوّد التخزين.
+function driveId(v){
+  if(!v) return '';
+  const m = String(v).match(/[-\w]{25,}/); // يلتقط الـ ID من أي صيغة رابط درايف
+  return m ? m[0] : String(v).trim();
+}
+function isSharePoint(u){ return /(sharepoint\.com|1drv\.ms|onedrive\.live\.com)/i.test(u || ''); }
+
+function openUrl(f){
+  if(f.drive) return `https://drive.google.com/file/d/${driveId(f.drive)}/view?usp=sharing`;
+  if(f.url)   return f.url;
+  return f.href;
+}
+function downloadUrl(f){
+  if(f.drive) return `https://drive.google.com/uc?export=download&id=${driveId(f.drive)}`;
+  if(f.url){
+    const u = f.url;
+    if(/drive\.google\.com/i.test(u)) return `https://drive.google.com/uc?export=download&id=${driveId(u)}`;
+    if(isSharePoint(u)){
+      // حالة رابط مشغّل الستريم: .../_layouts/15/stream.aspx?id=<المسار>
+      // نحوّله إلى download.aspx?SourceUrl=<المسار> ليُنزّل الملف مباشرة.
+      if(/\/_layouts\/15\/stream\.aspx/i.test(u)){
+        const idMatch = u.match(/[?&]id=([^&]+)/);
+        const base = u.substring(0, u.indexOf('/_layouts/'));
+        if(idMatch) return `${base}/_layouts/15/download.aspx?SourceUrl=${idMatch[1]}`;
+      }
+      // روابط المشاركة المختصرة: https://TENANT/:X:/g/personal/USER/<token>?e=...
+      // نحوّلها إلى download.aspx?share=<token> — وهو المسار الرسمي للتنزيل المباشر.
+      const m = u.match(/^(https?:\/\/[^/]+)\/:[a-z]:\/[a-z]\/(.+?)\/([^/?]+)(?:\?|$)/i);
+      if(m){
+        return `${m[1]}/${m[2]}/_layouts/15/download.aspx?share=${m[3]}`;
+      }
+      // احتياط: إضافة download=1 للرابط الأصلي.
+      if(/[?&]download=1\b/.test(u)) return u;
+      return u + (u.includes('?') ? '&' : '?') + 'download=1';
+    }
+    return u;
+  }
+  return f.href;
+}
+function isExternal(url){ return /^https?:\/\//i.test(url); }
+
+const nav = document.getElementById('nav');
+const content = document.getElementById('content');
+
+function isDone(sl){ return !!((sl.files && sl.files.length) || sl.message || (sl.items && sl.items.length)); }
+
+sections.forEach((s, i) => {
+  const doneCount = s.slots.filter(isDone).length;
+  const btn = document.createElement('button');
+  btn.className = 'nav-item' + (i===0 ? ' active' : '');
+  btn.dataset.id = s.id;
+  btn.innerHTML = `<span class="icon">${icon(s.icon)}</span><span class="label">${s.title}</span><span class="count">${doneCount}/${s.slots.length}</span>`;
+  btn.addEventListener('click', () => showSection(s.id));
+  nav.appendChild(btn);
+
+  const sec = document.createElement('div');
+  sec.className = 'section' + (i===0 ? ' active' : '');
+  sec.id = 'sec-' + s.id;
+  const slotsHtml = s.slots.map(sl => {
+    const done = isDone(sl);
+    const filesHtml = (sl.files && sl.files.length) ? `
+      <div class="slot-files">
+        ${sl.files.map(f => `<div class="file-row">
+          <a class="file-link" href="${openUrl(f)}" target="_blank" rel="noopener" title="${f.openOnly ? 'فتح الرابط' : 'فتح الملف'}">
+            <span class="file-icon">${icon(f.icon || 'file')}</span>
+            <span class="file-meta"><span class="file-label">${f.label}</span>${f.meta ? `<span class="file-sub">${f.meta}</span>` : ''}</span>
+            <span class="file-open">${icon('external')}</span>
+          </a>
+          ${f.openOnly ? '' : `<a class="file-dl-btn" href="${downloadUrl(f)}" download="${f.name||''}" target="_blank" rel="noopener" title="تحميل الملف" aria-label="تحميل ${f.label}">
+            ${icon('download')}<span>تحميل</span>
+          </a>`}
+        </div>`).join('')}
+      </div>` : '';
+    const itemsCopyText = (sl.items && sl.items.length)
+      ? sl.title + ':\n' + sl.items.map(it => '- ' + it).join('\n')
+      : '';
+    const itemsHtml = (sl.items && sl.items.length) ? `
+      <div class="slot-items">
+        <div class="req-scroll${sl.items.length > 3 ? ' scrollable' : ''}">
+          ${sl.items.map(it => `<div class="req-item">
+            <span class="req-logo">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#76E876"/>
+                <rect x="22" y="30" width="55" height="18" rx="9" fill="#253932" transform="rotate(-20 49.5 39)"/>
+                <rect x="22" y="59" width="55" height="18" rx="9" fill="#253932" transform="rotate(-20 49.5 68)"/>
+              </svg>
+            </span>
+            <span class="req-label">${escapeHtml(it)}</span>
+          </div>`).join('')}
+        </div>
+        <button class="copy-btn" type="button" data-copy="${encodeURIComponent(itemsCopyText)}">
+          ${icon('copy')}<span class="copy-label">نسخ المتطلبات</span>
+        </button>
+      </div>` : '';
+    const messageHtml = sl.message ? `
+      <div class="slot-message">
+        <div class="msg-text">${linkifyHtml(sl.message)}</div>
+        <button class="copy-btn" type="button" data-copy="${encodeURIComponent(sl.message)}">
+          ${icon('copy')}<span class="copy-label">نسخ الرسالة</span>
+        </button>
+      </div>` : '';
+    const hintHtml = done ? '' : `<div class="hint">قيد الإعداد — تُفعَّل هذه الخانة فور اعتماد محتواها</div>`;
+    return `
+    <div class="slot">
+      <div class="slot-top">
+        <div class="slot-icon">${icon(sl.icon)}</div>
+        <span class="status-pill${done ? ' done' : ''}">${done ? 'مكتمل' : 'بانتظار الإضافة'}</span>
+      </div>
+      <h4>${sl.title}</h4>
+      <p class="desc">${sl.desc}</p>
+      ${itemsHtml}
+      ${messageHtml}
+      ${filesHtml}
+      ${hintHtml}
+    </div>
+  `;
+  }).join('');
+  sec.innerHTML = `
+    <div class="grid">${slotsHtml}</div>
+    <div class="footer-note">هذا الدليل مرجع حي يتطور باستمرار — تُضاف المواد تباعاً وتُعتمد كل خانة فور اكتمال محتواها. لأي ملاحظة أو مادة مقترحة، تواصل مع إدارة المبيعات.</div>
+  `;
+  content.appendChild(sec);
+});
+
+// Copy-to-clipboard for message slots.
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.copy-btn');
+  if(!btn) return;
+  const text = decodeURIComponent(btn.getAttribute('data-copy') || '');
+  const label = btn.querySelector('.copy-label');
+  const original = label ? label.textContent : '';
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+    }else{
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      document.execCommand('copy'); ta.remove();
+    }
+    btn.classList.add('copied');
+    btn.querySelector('svg').outerHTML = icon('check');
+    if(label) label.textContent = 'تم النسخ';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.querySelector('svg').outerHTML = icon('copy');
+      if(label) label.textContent = original;
+    }, 1800);
+  }catch(err){ /* ignore */ }
+});
+
+// Some browsers ignore the `download` attribute for media types they can play
+// inline (mp4 especially). Fetch the file as a blob and save it explicitly so
+// "تحميل" always downloads instead of opening a player.
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.file-dl-btn');
+  if(!btn) return;
+  const href = btn.getAttribute('href');
+  // روابط درايف تُحمَّل من سيرفر جوجل مباشرة — لا يمكن جلبها كـ blob (CORS)
+  if(isExternal(href)) return;
+  if(location.protocol === 'file:') return; // blob fetch is blocked on file:// — let the browser handle it
+  e.preventDefault();
+  const name = btn.getAttribute('download') || href.split('/').pop();
+  const original = btn.innerHTML;
+  btn.classList.add('is-loading');
+  btn.innerHTML = `${icon('download')}<span>جارٍ التحميل…</span>`;
+  try{
+    const res = await fetch(href);
+    if(!res.ok) throw new Error(res.status);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }catch(err){
+    window.location.href = href; // fallback to the plain link
+  }finally{
+    btn.classList.remove('is-loading');
+    btn.innerHTML = original;
+  }
+});
+
+function showSection(id){
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+  document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.id === 'sec-' + id));
+  const idx = sections.findIndex(x => x.id === id);
+  const s = sections[idx];
+  document.getElementById('page-title').textContent = s.title;
+  document.getElementById('page-desc').textContent = s.desc;
+  document.getElementById('section-index').textContent = `القسم ${idx+1} من ${sections.length}`;
+  updateProgress();
+}
+
+function updateProgress(){
+  const total = sections.reduce((sum, s) => sum + s.slots.length, 0);
+  const done = sections.reduce((sum, s) => sum + s.slots.filter(isDone).length, 0);
+  document.getElementById('progress-fill').style.width = (total ? done/total*100 : 0) + '%';
+  document.getElementById('progress-text').textContent = `${done} من ${total} عنصر مكتمل`;
+}
+
+showSection(sections[0].id);
+</script>
+</body>
+</html>
