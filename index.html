@@ -951,11 +951,10 @@ const content = document.getElementById('content');
 function isDone(sl){ return !!((sl.files && sl.files.length) || sl.message || (sl.items && sl.items.length)); }
 
 sections.forEach((s, i) => {
-  const doneCount = s.slots.filter(isDone).length;
   const btn = document.createElement('button');
   btn.className = 'nav-item' + (i===0 ? ' active' : '');
   btn.dataset.id = s.id;
-  btn.innerHTML = `<span class="icon">${icon(s.icon)}</span><span class="label">${s.title}</span><span class="count">${doneCount}/${s.slots.length}</span>`;
+  btn.innerHTML = `<span class="icon">${icon(s.icon)}</span><span class="label">${s.title}</span>`;
   btn.addEventListener('click', () => showSection(s.id));
   nav.appendChild(btn);
 
@@ -1010,7 +1009,7 @@ sections.forEach((s, i) => {
     <div class="slot">
       <div class="slot-top">
         <div class="slot-icon">${icon(sl.icon)}</div>
-        <span class="status-pill${done ? ' done' : ''}">${done ? 'مكتمل' : 'بانتظار الإضافة'}</span>
+        ${done ? '' : `<span class="status-pill">بانتظار الإضافة</span>`}
       </div>
       <h4>${sl.title}</h4>
       <p class="desc">${sl.desc}</p>
