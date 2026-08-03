@@ -713,10 +713,6 @@
         <span class="section-index" id="section-index"></span>
       </div>
       <p id="page-desc"></p>
-      <div class="progress-wrap">
-        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-        <span class="progress-text" id="progress-text">0 من 6 أقسام مكتملة</span>
-      </div>
     </div>
     <div class="content" id="content"></div>
   </div>
@@ -1094,14 +1090,6 @@ function showSection(id){
   document.getElementById('page-title').textContent = s.title;
   document.getElementById('page-desc').textContent = s.desc;
   document.getElementById('section-index').textContent = `القسم ${idx+1} من ${sections.length}`;
-  updateProgress();
-}
-
-function updateProgress(){
-  const total = sections.reduce((sum, s) => sum + s.slots.length, 0);
-  const done = sections.reduce((sum, s) => sum + s.slots.filter(isDone).length, 0);
-  document.getElementById('progress-fill').style.width = (total ? done/total*100 : 0) + '%';
-  document.getElementById('progress-text').textContent = `${done} من ${total} عنصر مكتمل`;
 }
 
 showSection(sections[0].id);
