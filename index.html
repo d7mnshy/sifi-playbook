@@ -780,7 +780,7 @@ const sections = [
       ]},
       {icon:"building", title:"ملف تعريف الشركة (Company Profile)", desc:"نبذة رسمية عن SiFi تغطي الرؤية والحلول ونطاق الترخيص — متوفرة بالعربية والإنجليزية.", files:[
         {label:"الملف التعريفي — النسخة العربية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBys9qbw49cSbY0PfcmWy4oAf93e1Vm7WdtMDmPr7i1usE?e=jm3L9b"},
-        {label:"Executive Profile — English", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQDIBIFf_dbhSqdx55rXSY7aAehdxYiAxlJW_BBoTTMvXBA?e=tA3NFc"}
+        {label:"Executive Profile — English", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQDIBIFf_dbhSqdx55rXSY7aAehdxYiAxlJW_BBoTTMvXBA?e=tA3NFc", dl:"https://sifisaudi-my.sharepoint.com/personal/o_behabashy_sifi_sa/_layouts/15/download.aspx?SourceUrl=%2Fpersonal%2Fo_behabashy_sifi_sa%2FDocuments%2Fsales%20playbook%2FCompany%20profile%2FEN%20company%20profile%2FExecutive%20Profile%20EN%202.pdf"}
       ]},
       {icon:"cash", title:"قائمة رسوم SiFi", desc:"الرسوم الرسمية المطبقة حالياً على حساب ساي فاي.", files:[
         {label:"جدول الرسوم — SiFi Fees Schedule", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQDXFgqiXy2vSIJt9g_XXC8xAbgtLP2zhtSgiFi3BeMKvus?e=D93TCr"}
@@ -918,6 +918,7 @@ function openUrl(f){
   return f.href;
 }
 function downloadUrl(f){
+  if(f.dl) return f.dl; // رابط تحميل مخصص يتجاوز التوليد التلقائي
   if(f.drive) return `https://drive.google.com/uc?export=download&id=${driveId(f.drive)}`;
   if(f.url){
     const u = f.url;
