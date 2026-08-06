@@ -930,6 +930,12 @@ function downloadUrl(f){
         const base = u.substring(0, u.indexOf('/_layouts/'));
         if(idMatch) return `${base}/_layouts/15/download.aspx?SourceUrl=${idMatch[1]}`;
       }
+      // روابط المسار المباشر: /:b:/r/personal/USER/Documents/... .pdf
+      // نحوّلها إلى download.aspx?SourceUrl=<المسار> للتنزيل المباشر.
+      const pr = u.match(/^(https?:\/\/[^/]+)\/:[a-z]:\/r(\/personal\/([^/]+)\/[^?]+)/i);
+      if(pr){
+        return `${pr[1]}/personal/${pr[3]}/_layouts/15/download.aspx?SourceUrl=${encodeURIComponent(decodeURIComponent(pr[2]))}`;
+      }
       // روابط المشاركة المختصرة: https://TENANT/:X:/g/personal/USER/<token>?e=...
       // نحوّلها إلى download.aspx?share=<token> — وهو المسار الرسمي للتنزيل المباشر.
       const m = u.match(/^(https?:\/\/[^/]+)\/:[a-z]:\/[a-z]\/(.+?)\/([^/?]+)(?:\?|$)/i);
