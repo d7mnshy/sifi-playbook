@@ -477,8 +477,10 @@
     font-weight:600;
     line-height:1.4;
     overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow-wrap:anywhere;
   }
   .file-sub{
     font-size:11.5px;
@@ -776,24 +778,30 @@ const sections = [
 في حال حاب نكمل معك الإجراءات لفتح حسابكم معنا ارسلي السجل التجاري بعد إذنك`},
       {icon:"video", title:"مقاطع تعريفية بالمنصة ومميزاتها", desc:"مقاطع قصيرة تقدّم منصة SiFi وأبرز مزاياها بلغة مبسّطة — مثالية للمشاركة في أول تواصل.", files:[
         {icon:"video", label:"شرح مبسط لفكرة SiFi", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQBYbjAkzN3rSZZTT52Gzss0AdC8xMIn0_uOsLZ1RE1JXCY?e=BmfLAr"},
-        {icon:"video", label:"توضيح لميزة الكاش باك والمكافآت", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQAJZdUNV--mQ4TTRDyTdcItAS9PN6CZ6j-Cr9RrDypubGI?e=2X2FNc"}
+        {icon:"video", label:"ميزة الكاش باك والمكافآت", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQAJZdUNV--mQ4TTRDyTdcItAS9PN6CZ6j-Cr9RrDypubGI?e=2X2FNc"}
       ]},
       {icon:"building", title:"ملف تعريف الشركة (Company Profile)", desc:"نبذة رسمية عن SiFi تغطي الرؤية والحلول ونطاق الترخيص — متوفرة بالعربية والإنجليزية.", files:[
-        {label:"الملف التعريفي — النسخة العربية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQAjGAaxOwcFQoMUTX9kY1M2AYl8hkl3Zp6G998GMo4v2mE?e=GBNbsP"},
-        {label:"SiFi Presentation — English", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBwk7cJp-QnS4yhWVWc1FOVAbujfPNMLUgHX7qawVkoOH0?e=dgDBDZ"}
+        {label:"النسخة العربية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQAjGAaxOwcFQoMUTX9kY1M2AYl8hkl3Zp6G998GMo4v2mE?e=GBNbsP"},
+        {label:"English Version", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBwk7cJp-QnS4yhWVWc1FOVAbujfPNMLUgHX7qawVkoOH0?e=dgDBDZ"}
       ]},
       {icon:"cash", title:"قائمة رسوم SiFi", desc:"الرسوم الرسمية المطبقة حالياً على حساب ساي فاي.", files:[
-        {label:"جدول الرسوم — SiFi Fees Schedule", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQDXFgqiXy2vSIJt9g_XXC8xAbgtLP2zhtSgiFi3BeMKvus?e=D93TCr"},
-        {label:"SiFi Fees Schedule — English", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQC-Q0rx1J7uT7f-JoOphvNKAT8iOBvs8xMXRznNYHpsYlM?e=OdkR98"}
+        {label:"النسخة العربية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQDXFgqiXy2vSIJt9g_XXC8xAbgtLP2zhtSgiFi3BeMKvus?e=D93TCr"},
+        {label:"English Version", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQC-Q0rx1J7uT7f-JoOphvNKAT8iOBvs8xMXRznNYHpsYlM?e=OdkR98"}
       ]},
       {icon:"chart", title:"القطاعات الأكثر استفادة من SiFi", desc:"ملف تعريفي لميزات ساي فاي بناءً على القطاع.", files:[
-        {label:"القطاعات الأكثر استفادة من SiFi", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCCJS6NDhtITqVNHxT5fHp5AetjhjS9BGI6CKkyNFgAbjc?e=6JyQJe"}
+        {label:"النسخة العربية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCCJS6NDhtITqVNHxT5fHp5AetjhjS9BGI6CKkyNFgAbjc?e=6JyQJe"},
+        {label:"English Version", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQB4BwwAf8zSToLG3LUNcEBmAXe2VqhWY2wcxvXyqE1cZe0?e=lgmRaz"}
       ]},
       {icon:"video", title:"رابط تجريبي (DEMO) لمنصة SiFi", desc:"بيئة تجريبية كاملة للعرض خلال الاجتماع التعريفي، ويمكن مشاركتها مع العميل ليجرّب المنصة بنفسه قبل التوقيع.", files:[
         {icon:"external", label:"فتح المنصة التجريبية (DEMO)", meta:"رابط ويب", openOnly:true, url:"https://sifi-demo-fe.vercel.app/login"}
       ]},
       {icon:"message", title:"رسائل الواتس الجماعية (Broadcasts)", desc:"دليل توثيق الحساب واستخدام أداة الرسائل الجماعية في الواتس.", files:[
-        {icon:"video", label:"شرح طريقة ارسال الرسائل الجماعية للعملاء", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQC5IgYEJjO-RbB8ck5QDeEsAXoikkbpVl4bAEgzueh4cu4?e=yV5ioS"}
+        {icon:"video", label:"شرح الرسائل الجماعية", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQC5IgYEJjO-RbB8ck5QDeEsAXoikkbpVl4bAEgzueh4cu4?e=yV5ioS"}
+      ]},
+      {icon:"award", title:"نظام المكافآت (Rewards & Cashback)", desc:"دليل نظام المكافآت والاسترداد المالي.", files:[
+        {label:"النسخة العربية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCpllWEB3OYQINVLzssfinjAaUeJbrOhaPVDZCm9dk94ys?e=VrbzwV"},
+        {label:"English Version", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCB07UpMO8qQJZb_DR7cPPWAcXGg2GZBNTm807WKPWDnwA?e=KDvLX8"},
+        {icon:"video", label:"مقطع ترويجي", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQAJZdUNV--mQ4TTRDyTdcItAS9PN6CZ6j-Cr9RrDypubGI?e=Ee3VSJ"}
       ]}
     ]
   },
@@ -815,12 +823,12 @@ https://sifi-ksa.notion.site/SiFi-Onboarding-Guide-1bf177feea3580db8773f187c8060
 مقطع مختصر شرح استخدام المنصة:
 https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6`},
       {icon:"folder", title:"دليل الإعداد خطوة بخطوة", desc:"دليل مرتّب يرافق العميل خطوة بخطوة في فتح الحساب وإصدار البطاقات.", files:[
-        {icon:"external", label:"دليل الإعداد خطوة بخطوة (Notion)", meta:"رابط ويب", openOnly:true, url:"https://sifi-ksa.notion.site/SiFi-Onboarding-Guide-1bf177feea3580db8773f187c8060622"}
+        {icon:"external", label:"دليل الإعداد خطوة بخطوة", meta:"رابط ويب", openOnly:true, url:"https://sifi-ksa.notion.site/SiFi-Onboarding-Guide-1bf177feea3580db8773f187c8060622"}
       ]},
       {icon:"graduation", title:"مواد تدريب العميل", desc:"مقاطع عملية قصيرة تشرح للعميل إعداد حسابه وتفعيله بالتفصيل.", files:[
         {icon:"video", label:"طريقة تنشيط المحفظة", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/personal/o_behabashy_sifi_sa/_layouts/15/stream.aspx?id=%2Fpersonal%2Fo%5Fbehabashy%5Fsifi%5Fsa%2FDocuments%2Fsales%20playbook%2FSiFi%20Videos%2FWhatsApp%20Video%202026%2D07%2D29%20at%206%2E15%2E35%20PM%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E78599df6%2D63e7%2D446d%2Dba04%2D81deb0966650"},
-        {icon:"video", label:"مقطع تدريبي — إعداد الحساب (Loom)", meta:"رابط ويب", openOnly:true, url:"https://www.loom.com/share/5c50cd67d47a46fbba40f8d6ed87a7b3"},
-        {icon:"video", label:"شرح استخدام المنصة (YouTube)", meta:"رابط ويب", openOnly:true, url:"https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6"}
+        {icon:"video", label:"إعداد الحساب (Loom)", meta:"رابط ويب", openOnly:true, url:"https://www.loom.com/share/5c50cd67d47a46fbba40f8d6ed87a7b3"},
+        {icon:"video", label:"شرح استخدام المنصة", meta:"رابط ويب", openOnly:true, url:"https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6"}
       ]},
       {icon:"card", title:"دليل تنفيذ أول عملية إيداع وشراء بالبطاقة", desc:"شرح خطوة بخطوة لإتمام أول عملية إيداع وأول عملية شراء عبر البطاقة.", files:[
         {label:"كيف تسوي أول عملية شرائية؟", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBblsU2LclMSJrv21-ug-tvASJdgWl4bRLX6vHfRqc5aRo?e=eWqtMv"}
@@ -849,7 +857,7 @@ https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6`},
         "صور هوية جميع أعضاء مجلس الإدارة"
       ]},
       {icon:"book", title:"مرجع موحّد لمتطلبات فتح الحسابات البنكية", desc:"وثيقة واحدة تجمع متطلبات فتح الحساب لجميع أنواع الجهات — مرجعك السريع عند أي استفسار.", files:[
-        {label:"المرجع الموحّد لمتطلبات فتح الحسابات", meta:"Excel", url:"https://sifisaudi-my.sharepoint.com/:x:/g/personal/o_behabashy_sifi_sa/IQA6ca6JUQBBSJdEKLwlwE-cATD_ZmSjfFk8v4pkoWK4Ews?e=fgXUu7"}
+        {label:"المرجع الموحّد للمتطلبات", meta:"Excel", url:"https://sifisaudi-my.sharepoint.com/:x:/g/personal/o_behabashy_sifi_sa/IQA6ca6JUQBBSJdEKLwlwE-cATD_ZmSjfFk8v4pkoWK4Ews?e=fgXUu7"}
       ]}
     ]
   },
@@ -860,18 +868,18 @@ https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6`},
     desc: "الوثائق الرسمية لشركة SiFi المعتمدة في التوقيع مع العملاء ومتطلبات الامتثال التنظيمي.",
     slots: [
       {icon:"shield", title:"ترخيص البنك المركزي (SAMA License)", desc:"وثيقة الترخيص الرسمية الصادرة من البنك المركزي السعودي (SAMA) — مرفق رابط موقع البنك المركزي للجهات المعتمدة.", files:[
-        {label:"شهادة ترخيص شركة الحلول المبسطة المالية", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBmJRP2xaJITKRWRUeAakefAaeqVURUbsUe36J8GnBJokE?e=9xiUFG"},
-        {icon:"external", label:"الجهات المعتمدة — موقع البنك المركزي السعودي", meta:"رابط ويب", openOnly:true, url:"https://www.sama.gov.sa/ar-sa/Supervision/LicenseEntities/Pages/Licensed_Payment_Service_Providers_companies.aspx"}
+        {label:"شهادة ترخيص SAMA", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQBmJRP2xaJITKRWRUeAakefAaeqVURUbsUe36J8GnBJokE?e=9xiUFG"},
+        {icon:"external", label:"الجهات المعتمدة (موقع SAMA)", meta:"رابط ويب", openOnly:true, url:"https://www.sama.gov.sa/ar-sa/Supervision/LicenseEntities/Pages/Licensed_Payment_Service_Providers_companies.aspx"}
       ]},
       {icon:"file", title:"السجل التجاري لـ SiFi", desc:"نسخة رسمية وسارية من السجل التجاري للشركة — بالعربية والإنجليزية.", files:[
-        {label:"السجل التجاري لساي فاي — SiFi CR 2026", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCmWuAwJWc0Rq2JP46Q2XW6Af-o-Fv5mwwu3yXUXZn1FEs?e=AIheAO"},
+        {label:"السجل التجاري — CR 2026", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCmWuAwJWc0Rq2JP46Q2XW6Af-o-Fv5mwwu3yXUXZn1FEs?e=AIheAO"},
         {label:"CR Certificate — English", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQDHIczBHhUPRb7JL4fs6dX5AV4yT1x60KEva6dKvsPDncU?e=ETTkZa"}
       ]},
       {icon:"file", title:"الشروط والأحكام", desc:"رابط الشروط والأحكام من موقع ساي فاي الرسمي.", files:[
-        {icon:"external", label:"الشروط والأحكام — موقع SiFi الرسمي", meta:"رابط ويب", openOnly:true, url:"https://www.sifi.app/ar/terms-and-conditions"}
+        {icon:"external", label:"الشروط والأحكام", meta:"رابط ويب", openOnly:true, url:"https://www.sifi.app/ar/terms-and-conditions"}
       ]},
       {icon:"file", title:"نموذج فتح الحساب الموحّد", desc:"نسخة للنموذج الرسمي المعتمد لفتح الحساب المراد توقيعه من العملاء.", files:[
-        {label:"نموذج فتح الحساب — SiFi Application", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCEN_H3sqsKRqRapWicf2eUAdqJCO-TKtmjoFV9-Ww6ntU?e=VYpSvJ"}
+        {label:"نموذج فتح الحساب", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCEN_H3sqsKRqRapWicf2eUAdqJCO-TKtmjoFV9-Ww6ntU?e=VYpSvJ"}
       ]},
       {icon:"lock", title:"NDA", desc:"أحدث نسخة معتمدة من اتفاقية عدم الإفصاح (NDA) الجاهزة للتوقيع.", files:[
         {label:"SiFi — NDA Template", meta:"Word", url:"https://sifisaudi-my.sharepoint.com/:w:/g/personal/o_behabashy_sifi_sa/IQAtwjlR8qt1QLMCy3sEUVO8ARhm_HEIR5OAc-NtnCq-3I8?e=IdhFuq"}
@@ -885,7 +893,7 @@ https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6`},
     desc: "قراءة دقيقة للمشهد التنافسي تمكّن الفريق من إدارة النقاش والتفاوض بثقة ووضوح.",
     slots: [
       {icon:"chart", title:"مقارنة SiFi مقابل المنافسين", desc:"مقارنة شاملة للمزايا والخدمات والتسعير أمام أبرز المنافسين في السوق.", files:[
-        {label:"مقارنة SiFi مقابل المنافسين — درب وهلا", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCTxRN1cyXrSINx2YqFW0AIAYzylO8Oz0SRVoINxAYgoac?e=Qr4mGc"}
+        {label:"مقارنة SiFi مع المنافسين", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQCTxRN1cyXrSINx2YqFW0AIAYzylO8Oz0SRVoINxAYgoac?e=Qr4mGc"}
       ]}
     ]
   },
@@ -896,7 +904,7 @@ https://youtu.be/zhN4q9KNYqU?si=CUk3FtJr63LyzHX6`},
     desc: "السياسات المعتمدة لاحتساب العمولات والحوافز — بوضوح وشفافية كاملة لفريق المبيعات وإدارة الحسابات.",
     slots: [
       {icon:"chart", title:"هيكل العمولات", desc:"آلية احتساب عمولة المبيعات المعتمدة عن كل صفقة مغلقة.", files:[
-        {icon:"folder", label:"هيكل العمولات — Commission Scheme 2026", meta:"مجلد OneDrive", openOnly:true, url:"https://sifisaudi-my.sharepoint.com/my?id=%2Fpersonal%2Fo%5Fbehabashy%5Fsifi%5Fsa%2FDocuments%2Fsales%20playbook%2FSales%20team%2Fsales%20commission%2FCommission%20scheme%202026%2Fcommission%20scheme2026&viewid=23540c12%2D6b63%2D43c6%2Db96b%2D4c01db36363e"}
+        {icon:"folder", label:"هيكل العمولات 2026", meta:"مجلد OneDrive", openOnly:true, url:"https://sifisaudi-my.sharepoint.com/my?id=%2Fpersonal%2Fo%5Fbehabashy%5Fsifi%5Fsa%2FDocuments%2Fsales%20playbook%2FSales%20team%2Fsales%20commission%2FCommission%20scheme%202026%2Fcommission%20scheme2026&viewid=23540c12%2D6b63%2D43c6%2Db96b%2D4c01db36363e"}
       ]},
       {icon:"target", title:"حوافز تحقيق الأهداف", desc:"تحديات متنوعة تحفيزية شهرية أو ربعية يتم تحديثها باستمرار من إدارة قسم المبيعات."}
     ]
