@@ -640,6 +640,10 @@
     opacity:.75;
     background:rgba(199,250,192,0.9);
   }
+  button.file-dl-btn{
+    cursor:pointer;
+    font-family:inherit;
+  }
   .footer-note{
     margin-top:36px;
     padding:16px 20px;
@@ -793,7 +797,7 @@ const sections = [
         {label:"English Version", meta:"PDF", url:"https://sifisaudi-my.sharepoint.com/:b:/g/personal/o_behabashy_sifi_sa/IQB4BwwAf8zSToLG3LUNcEBmAXe2VqhWY2wcxvXyqE1cZe0?e=lgmRaz"}
       ]},
       {icon:"video", title:"رابط تجريبي (DEMO) لمنصة SiFi", desc:"بيئة تجريبية كاملة للعرض خلال الاجتماع التعريفي، ويمكن مشاركتها مع العميل ليجرّب المنصة بنفسه قبل التوقيع.", files:[
-        {icon:"external", label:"فتح المنصة التجريبية (DEMO)", meta:"رابط ويب", openOnly:true, url:"https://sifi-demo-fe.vercel.app/login"}
+        {icon:"external", label:"فتح المنصة (DEMO)", meta:"رابط ويب", openOnly:true, copyUrl:true, url:"https://try.sifi.app/dashboard"}
       ]},
       {icon:"message", title:"رسائل الواتس الجماعية (Broadcasts)", desc:"دليل توثيق الحساب واستخدام أداة الرسائل الجماعية في الواتس.", files:[
         {icon:"video", label:"شرح الرسائل الجماعية", meta:"MP4", url:"https://sifisaudi-my.sharepoint.com/:v:/g/personal/o_behabashy_sifi_sa/IQC5IgYEJjO-RbB8ck5QDeEsAXoikkbpVl4bAEgzueh4cu4?e=yV5ioS"}
@@ -1002,6 +1006,9 @@ sections.forEach((s, i) => {
           ${f.openOnly ? '' : `<a class="file-dl-btn" href="${downloadUrl(f)}" download="${f.name||''}" target="_blank" rel="noopener" title="تحميل الملف" aria-label="تحميل ${f.label}">
             ${icon('download')}<span>تحميل</span>
           </a>`}
+          ${f.copyUrl ? `<button class="file-dl-btn copy-btn" type="button" data-copy="${encodeURIComponent(f.url)}" title="نسخ الرابط" aria-label="نسخ رابط ${f.label}">
+            ${icon('copy')}<span class="copy-label">نسخ الرابط</span>
+          </button>` : ''}
         </div>`).join('')}
       </div>` : '';
     const itemsCopyText = (sl.items && sl.items.length)
